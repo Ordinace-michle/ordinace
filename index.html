@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ordinace Praha Michle</title>
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/3035/3035695.png" type="image/png">
+    
+    <style>
+        /* 1. БАЗОВЫЕ НАСТРОЙКИ */
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #ffffff;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* 2. ШАПКА */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            border-bottom: 1px solid #e0e0e0;
+            position: sticky;
+            top: 0;
+            background: white;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: #b22222;
+            font-weight: bold;
+            font-size: 18px;
+            text-decoration: none;
+        }
+
+        .logo img { width: 35px; height: 35px; }
+
+        nav a {
+            margin-left: 20px;
+            text-decoration: none;
+            color: #666;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        /* 3. НАСТРОЙКА РАЗДЕЛОВ (ПОЛНЫЙ ЭКРАН) */
+        section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center; /* Центрируем контент по вертикали */
+            justify-content: center;
+            padding: 80px 40px;
+            box-sizing: border-box;
+            border-top: 1px solid #eee;
+        }
+
+        .section-column { flex-direction: column; }
+
+        .main-title { font-size: 56px; color: #777; font-weight: bold; margin-bottom: 20px; text-align: center; width: 100%; }
+        .subtitle { font-size: 24px; color: #aaa; font-weight: bold; margin-bottom: 40px; text-align: center; }
+
+        /* 4. ПЕРВЫЙ ЭКРАН (СТРОГО: ФОТО СЛЕВА, ТЕКСТ СПРАВА) */
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr; /* Левая колонка под фото, правая под текст */
+            gap: 60px;
+            max-width: 1300px;
+            width: 100%;
+            align-items: center;
+        }
+
+        .hero-photo img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            mask-image: radial-gradient(circle, black 65%, transparent 98%);
+            -webkit-mask-image: radial-gradient(circle, black 65%, transparent 98%);
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        /* РАСПИСАНИЕ КАРТОЧКАМИ */
+        .schedule-grid { display: flex; gap: 10px; flex-wrap: wrap; }
+        .day-card {
+            background: #f9f9f9;
+            border-radius: 12px;
+            padding: 15px 10px;
+            flex: 1;
+            min-width: 120px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .day-name { font-size: 18px; font-weight: bold; margin-bottom: 5px; }
+        .day-time { font-size: 14px; font-weight: bold; color: #444; display: block; }
+        .day-note { font-size: 12px; color: #888; }
+
+        /* КОНТАКТЫ */
+        .contact-info-block { display: flex; gap: 40px; border-top: 1px solid #eee; padding-top: 25px; }
+        .info-item h4 { color: #b22222; font-size: 18px; margin: 0 0 10px 0; }
+        .info-item p { font-size: 16px; font-weight: bold; color: #555; margin: 0; }
+
+        /* 5. УСЛУГИ */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            margin-bottom: 50px;
+        }
+        .service-item { text-align: center; }
+        .service-item h3 { color: #b22222; font-size: 22px; margin-bottom: 10px; }
+        .service-item p { color: #888; font-size: 16px; }
+
+        .services-gallery img {
+            width: 100%;
+            max-width: 1100px;
+            border-radius: 20px;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        /* 6. КОМАНДА (ЖЕНСКИЕ АВАТАРКИ) */
+        .team-grid { display: flex; justify-content: center; gap: 40px; width: 100%; }
+        .team-card { width: 280px; text-align: center; }
+        .avatar-circle {
+            width: 150px; height: 150px; background-color: #f7f0f0;
+            border-radius: 50%; margin: 0 auto 20px;
+            display: flex; justify-content: center; align-items: center;
+        }
+        .avatar-circle img { width: 90px; opacity: 0.4; }
+        .team-name { font-size: 19px; font-weight: bold; color: #555; }
+
+        /* 7. MEDEVIO */
+        .medevio-box {
+            max-width: 700px; width: 100%; text-align: center;
+            border: 2px solid #eee; padding: 60px; border-radius: 12px;
+        }
+        .medevio-btn {
+            display: inline-block; background-color: #00b0eb; color: white;
+            text-decoration: none; font-size: 28px; font-weight: bold;
+            padding: 15px 50px; border-radius: 50px;
+        }
+
+        /* 8. АКТУАЛЬНОСТИ */
+        .news-container { display: flex; flex-direction: column; gap: 20px; max-width: 800px; width: 100%; }
+        .news-card { border: 1px solid #eee; padding: 25px; border-radius: 10px; background: white; }
+
+        /* МОБИЛЬНАЯ ВЕРСИЯ */
+        @media (max-width: 1000px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-photo { order: -1; } /* На телефоне фото будет сверху */
+            .schedule-grid { justify-content: center; }
+            .contact-info-block { flex-direction: column; align-items: center; gap: 20px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .team-grid { flex-direction: column; align-items: center; }
+            section { min-height: auto; padding: 50px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="#" class="logo">
+        <img src="https://cdn-icons-png.flaticon.com/512/3035/3035695.png" alt="Asklépiova hůl">
+        <div>Ordinace praktického lékaře<br><small style="color: #888; font-size: 13px;">Praha Michle</small></div>
+    </a>
+    <nav>
+        <a href="#o-nas">O nás</a>
+        <a href="#sluzby">Služby</a>
+        <a href="#tym">Náš tým</a>
+        <a href="#pacienti">Pro pacienty</a>
+        <a href="#aktuality">Aktuality</a>
+    </nav>
+</header>
+
+<main>
+    <section id="o-nas">
+        <div class="hero-container">
+            <div class="hero-photo">
+                <img src="entrance-photo.jpg" alt="Vchod do ordinace">
+            </div>
+            
+            <div class="hero-content">
+                <h2 style="font-size: 32px; color: #555; margin: 0;">Ordinační hodiny</h2>
+                <div class="schedule-grid">
+                    <div class="day-card"><span class="day-name">Po</span><span class="day-time">8:00-14:00</span><span class="day-note">akutní/objednaní</span></div>
+                    <div class="day-card"><span class="day-name">Út</span><span class="day-time">8:00-14:00</span><span class="day-note">akutní/objednaní</span></div>
+                    <div class="day-card"><span class="day-name">St</span><span class="day-time">12:00-18:00</span><span class="day-note">akutní/objednaní</span></div>
+                    <div class="day-card"><span class="day-name">Čt</span><span class="day-time">8:00-14:00</span><span class="day-note">akutní/objednaní</span></div>
+                    <div class="day-card"><span class="day-name">Pá</span><span class="day-time">8:00-12:00</span><span class="day-note">akutní/objednaní</span></div>
+                </div>
+                <div class="contact-info-block">
+                    <div class="info-item"><h4>Adresa</h4><p>Michelská 1/7, 140 00 Praha 4</p></div>
+                    <div class="info-item"><h4>Kontakt</h4><p>+420 724 258 694<br>info@ordinace-michle.cz</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="sluzby" class="section-column">
+        <h2 class="main-title">Nabízené služby</h2>
+        <div class="services-grid">
+            <div class="service-item"><h3>Preventivní prohlídky</h3><p>Pravidelné kontroly a screeningová vyšetření.</p></div>
+            <div class="service-item"><h3>Vyšetření v ordinaci</h3><p>CRP, streptest, EKG, tlak – vše na místě.</p></div>
+            <div class="service-item"><h3>Očkování</h3><p>Chřipka, tetanus, klíšťová encefalitida.</p></div>
+        </div>
+        <div class="services-gallery">
+            <img src="stahování.jpg" alt="Interiér kliniky">
+        </div>
+    </section>
+
+    <section id="tym" class="section-column" style="background-color: #fcfcfc;">
+        <h2 class="main-title">Náš tým</h2>
+        <div class="team-grid">
+            <div class="team-card">
+                <div class="avatar-circle"><img src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png"></div>
+                <div class="team-name">MUDr. Dagmar Horčičková</div>
+            </div>
+            <div class="team-card">
+                <div class="avatar-circle"><img src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png"></div>
+                <div class="team-name">MUDr. Světlana Viarshynina</div>
+            </div>
+            <div class="team-card">
+                <div class="avatar-circle"><img src="https://cdn-icons-png.flaticon.com/512/6997/6997662.png"></div>
+                <div class="team-name">Magdalena Milotová<br><small>Zdravotní sestra</small></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pacienti" class="section-column">
+        <h2 class="main-title">Pro pacienty</h2>
+        <div class="medevio-box">
+            <p style="font-size: 22px; font-weight: bold; margin-bottom: 30px;">Všechny požadavky zadávejte přes aplikaci MEDEVIO</p>
+            <a href="https://my.medevio.cz/patient1-michelska" target="_blank" class="medevio-btn">medevio</a>
+        </div>
+    </section>
+
+    <section id="aktuality" class="section-column" style="background-color: #f9f9f9;">
+        <h2 class="main-title">Aktuality</h2>
+        <div class="news-container">
+            <div class="news-card"><h3>Změna lékaře</h3><p>Vážení pacienti, dovolujeme si Vás informovat, že od 1. 3. 2026 dochází ke změně poskytovatele zdravotních služeb v naší ordinaci praktického lékaře. Ordinaci přebírá MUDr. Pavel Demo ze společnosti DEMOMED s.r.o. Pro Vás se nic nemění – péče bude nadále poskytována ve stejném rozsahu a kontinuitě. Pan doktor Vás přebírá do své péče a věříme, že budete i nadále v těch nejlepších rukou. <strong>Telefonní čislo zustava stejne.</strong> Děkujeme Vám za důvěru.</p></div>
+            <div class="news-card"><h3>Nový tým</h3><p>Vážení pacienti, vzhledem k velkému počtu požadavků na Medeviu odpovídáme se zpožděním. Prosíme o shovívavost. Děkujeme za pochopení. Váš tým ordinace</p></div>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>
